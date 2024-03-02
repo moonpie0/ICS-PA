@@ -39,8 +39,11 @@ typedef struct {
       uint32_t SF : 1;  //sign flag
       uint32_t TF : 1;  //trap flag
       uint32_t IF : 1;  //inerrupt enable
-
+      uint32_t DF : 1;  //direction flag
+      uint32_t OF : 1;  //overflow flag
+      uint32_t    : 20; 
     };
+    uint32_t eflags;
   };
 
 } CPU_state;
