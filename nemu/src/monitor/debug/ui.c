@@ -49,6 +49,8 @@ static int cmd_si(char *args){
   return 0;
 }
 
+static int cmd_info(char *args);
+
 static struct {
   char *name;
   char *description;
@@ -60,6 +62,7 @@ static struct {
 
   /* TODO: Add more commands */
   {"si", "Execute the N instructions step by step", cmd_si},
+  {"info","Print the statement of programs, 'r'is register and 'w'is watchpoint",cmd_info},
 
 
 };
@@ -86,6 +89,25 @@ static int cmd_help(char *args) {
     }
     printf("Unknown command '%s'\n", arg);
   }
+  return 0;
+}
+
+
+static int cmd_info(char *args)
+{
+  char *arg =strtok(NULL, "");
+  if(arg==NULL)
+  {
+    printf("Please input subcmd 'r' or 'w'");
+    return 0;
+  }
+
+  if(strcmp(arg,"r")==0)
+    for(int i=0;i<8;i++)
+      printf("%s:0x%x\n", reg_name(i,4),reg_l(i));
+  else if(strcmp(arg,"w")==0)
+  ;
+  
   return 0;
 }
 
