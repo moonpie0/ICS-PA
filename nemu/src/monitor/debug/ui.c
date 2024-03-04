@@ -100,7 +100,7 @@ static int cmd_info(char *args)
   char *arg =strtok(NULL, "");
   if(arg==NULL)
   {
-    printf("Please input subcmd 'r' or 'w'");
+    printf("Please input subcmd 'r' or 'w'\n");
     return 0;
   }
 
@@ -116,14 +116,14 @@ static int cmd_info(char *args)
 static int cmd_x(char *args){
   char *arg1 = strtok(NULL, " ");
   if(arg1==NULL){
-    printf("Please input subcmp N");
+    printf("Please input subcmp N\n");
     return 0;
   }
   int i_arg1 = atoi(arg1);
   char *arg2 = strtok(NULL, " ");
 
   if(arg2==NULL){
-    printf("Please input subcmp expr");
+    printf("Please input subcmp expr\n");
     return 0;
   }
   uint32_t addr_begin = strtoul(arg2,NULL,16);
