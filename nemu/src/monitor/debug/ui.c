@@ -127,7 +127,7 @@ static int cmd_x(char *args){
     return 0;
   }
   uint32_t addr_begin = strtoul(arg2,NULL,16);
-  printf("the result of expr is:%d",addr_begin);
+  printf("the result of expr is:%d\n",addr_begin);
   for(int i=0;i<i_arg1;i++){
     printf("0x%x ", vaddr_read(addr_begin,1));
     addr_begin+=1;
