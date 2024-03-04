@@ -51,6 +51,8 @@ static int cmd_si(char *args){
 
 static int cmd_info(char *args);
 
+static int cmd_x(char *args);
+
 static struct {
   char *name;
   char *description;
@@ -63,7 +65,7 @@ static struct {
   /* TODO: Add more commands */
   {"si", "Execute the N instructions step by step", cmd_si},
   {"info","Print the statement of programs, 'r'is register and 'w'is watchpoint",cmd_info},
-
+  {"x", "scan the memory, regard the result of expr as address and print", cmd_x},
 
 };
 
@@ -108,6 +110,28 @@ static int cmd_info(char *args)
   else if(strcmp(arg,"w")==0)
   ;
   
+  return 0;
+}
+
+static int cmd_x(char *args){
+  char *arg1 = strtok(NULL, " ");
+  if(arg1==NULL){
+    printf("Please input subcmp N");
+    return 0;
+  }
+  int i_arg1 = atoi(arg1);
+  char *arg2 = strtok(NULL, " ");
+
+  if(arg2==NULL){
+    printf("Please input subcmp expr");
+    return 0;
+  }
+  uint32_t addr_begin = strtoul(arg2,NULL,16);
+  for(int i=0;i<i_arg1;i++){
+    printf("0x%x ", vaddr_read(addr_begin,1));
+    addr_begin+=1;
+  }
+  printf("\n");
   return 0;
 }
 
