@@ -30,7 +30,22 @@ static struct rule {
 
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
-  {"==", TK_EQ}         // equal
+  {"\\-", '-'},          // minus
+  {"\\*", '*'},          // multi/getval
+  {"\\/", '/'},          // div
+  {"==", TK_EQ},         // equal
+  {"!=", TK_NEQ},       // not equal
+  {"\\|", TK_OR},        // calc-or
+  {"&", TK_AND},         // calc-and
+  {"\\|\\|", TK_LOR},      // log-or
+  {"&&", TK_LAND},         // log-and
+  
+  {"[0-9]|([1-9][0-9]*)", DEC}, // decimal
+  {"0[xX][a-fA-F0-9]+", HEX}, // hex
+  {"\\$[eE][0-9a-zA-Z]{2}", REG}, // registers
+
+  {"\\(", '('},          // l-paren
+  {"\\)", ')'},          // r-paten
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
