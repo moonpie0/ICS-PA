@@ -39,7 +39,7 @@ static struct rule {
   {"&", TK_AND},         // calc-and
   {"\\|\\|", TK_LOR},      // log-or
   {"&&", TK_LAND},         // log-and
-  
+
   {"[0-9]|([1-9][0-9]*)", DEC}, // decimal
   {"0[xX][a-fA-F0-9]+", HEX}, // hex
   {"\\$[eE][0-9a-zA-Z]{2}", REG}, // registers
@@ -101,7 +101,20 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
-          default: TODO();
+          //default: TODO();
+          case TK_NOTYPE: break;
+          case REG:
+          case DEC:
+          case HEX:{
+            for(int i=0;i<substr_len;i++){
+              tokens[nr_token].str[i] = substr_start[i];
+            }
+            tokens[nr_token].str[substr_len] = '\0';
+          }
+          default: {
+            tokens[nr_token].type = rules[i].token_type;
+            nr_token++;
+          }
         }
 
         break;
