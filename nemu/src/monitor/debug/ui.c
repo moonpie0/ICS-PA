@@ -129,7 +129,7 @@ static int cmd_x(char *args){
   //uint32_t addr_begin = strtoul(arg2,NULL,16);
   uint32_t addr_begin ;
   sscanf(arg2, "0x%x", &addr_begin);
-  printf("the result of expr is:%d\n",addr_begin);
+  printf("the result of expr is:%x\n",addr_begin);
   for(int i=0;i<i_arg1;i++){
     printf("0x%x ", vaddr_read(addr_begin,1));
     addr_begin+=1;
