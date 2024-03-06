@@ -15,6 +15,7 @@ enum {
   TK_LAND, TK_LOR, TK_NOT,
   DEC, HEX,
   REG,
+  TK_VAL,
 
 
 };
@@ -37,6 +38,7 @@ static struct rule {
   {"!=", TK_NEQ},       // not equal
   {"\\|", TK_OR},        // calc-or
   {"&", TK_AND},         // calc-and
+  {"!", TK_NOT},          //log-not
   {"\\|\\|", TK_LOR},      // log-or
   {"&&", TK_LAND},         // log-and
 
@@ -69,9 +71,26 @@ void init_regex() {
   }
 }
 
+enum{
+  OP_VAL,
+  OP_PARN,
+  OP_UADD, //+1 -1
+  OP_DEFER,
+  OP_MUL,
+  OP_ADD, // 1+1
+  OP_NOT,
+  OP_EQ,
+  OP_AND,
+  OP_OR,
+  OP_LAND,
+  OP_LOR,
+
+};
+
 typedef struct token {
   int type;
   char str[32];
+  int preference; 
 } Token;
 
 Token tokens[32];
@@ -103,13 +122,73 @@ static bool make_token(char *e) {
         switch (rules[i].token_type) {
           //default: TODO();
           case TK_NOTYPE: break;
-          case REG:
+          case '+':
+          case '-':
+          {
+            tokens[nr_token].type=rules[i].token_type;
+            tokens[nr_token].preference=OP_ADD;
+            ++nr_token;
+            break;
+          }
+          case '*':
+          case '/':
+          {
+            tokens[nr_token].type=rules[i].token_type;
+            tokens[nr_token].preference=OP_MUL;
+            ++nr_token;
+            break;
+          }
+          case '(':
+          case ')':
+          {
+            tokens[nr_token].type=rules[i].token_type;
+            tokens[nr_token].preference=OP_PARN;
+            ++nr_token;
+            break;
+          }
+          case TK_EQ:
+          case TK_NEQ:
+          {
+            tokens[nr_token].type=rules[i].token_type;
+            tokens[nr_token].preference=OP_EQ;
+            ++nr_token;
+            break;
+          }
+          case TK_AND:
+          {
+            tokens[nr_token].type=rules[i].token_type;
+            tokens[nr_token].preference=OP_AND;
+            ++nr_token;
+            break;
+          }
+          case TK_OR:
+          {
+            tokens[nr_token].type=rules[i].token_type;
+            tokens[nr_token].preference=OP_OR;
+            ++nr_token;
+            break;
+          }
+          case TK_LAND:
+          {
+            tokens[nr_token].type=rules[i].token_type;
+            tokens[nr_token].preference=OP_LAND;
+            ++nr_token;
+            break;
+          }
+          case TK_LOR:
+          {
+            tokens[nr_token].type=rules[i].token_type;
+            tokens[nr_token].preference=OP_LOR;
+            ++nr_token;
+            break;
+          }
           case DEC:
           case HEX:{
             for(int i=0;i<substr_len;i++){
               tokens[nr_token].str[i] = substr_start[i];
             }
             tokens[nr_token].str[substr_len] = '\0';
+            tokens[nr_token].preference=OP_VAL;
           }
           default: {
             tokens[nr_token].type = rules[i].token_type;
@@ -124,6 +203,13 @@ static bool make_token(char *e) {
     if (i == NR_REGEX) {
       printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
       return false;
+    }
+  }
+
+  for(int i=0;i<nr_token;i++)
+  {
+    if(tokens[i].type=='*'&&((tokens[i].preference==OP_VAL)||i==0)){
+      tokens[i].type = TK_VAL;
     }
   }
 
