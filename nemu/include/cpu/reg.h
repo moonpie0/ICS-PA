@@ -34,6 +34,7 @@ typedef struct {
   };
   vaddr_t eip;
 
+/*
   union{
     struct{
       uint32_t CF : 1;  //carry flag
@@ -49,6 +50,7 @@ typedef struct {
     };
     uint32_t eflags;
   };
+*/
 
   /*uint32_t cs;
 
