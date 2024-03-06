@@ -53,6 +53,8 @@ static int cmd_info(char *args);
 
 static int cmd_x(char *args);
 
+static int cmd_p(char *args);
+
 static struct {
   char *name;
   char *description;
@@ -66,7 +68,7 @@ static struct {
   {"si", "Execute the N instructions step by step", cmd_si},
   {"info","Print the statement of programs, 'r'is register and 'w'is watchpoint",cmd_info},
   {"x", "scan the memory, regard the result of expr as address and print", cmd_x},
-
+  {"p", "Print the result of the expression",cmd_p},
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
@@ -135,6 +137,23 @@ static int cmd_x(char *args){
     addr_begin+=1;
   }
   printf("\n");
+  return 0;
+}
+
+static int cmd_p(char *args){
+  char *arg =strtok(NULL, "");
+  if(arg==NULL)
+  {
+    printf("Please input expression\n");
+    return 0;
+  }
+
+  bool success=true;
+  uint32_t result=expr(arg, &success);
+  if(!success)
+    printf("Your expression is erroneous!\n");
+  else
+    printf("the result is: %d\n",result);
   return 0;
 }
 
