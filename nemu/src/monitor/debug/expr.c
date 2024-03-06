@@ -216,6 +216,32 @@ static bool make_token(char *e) {
   return true;
 }
 
+bool check_parentheses(int l, int r,bool *success){
+  int match = 0;
+  //bool flag=true;
+  for(int i=l;i<=r;i++){
+    if(tokens[i].type=='('){
+      match+=1;
+    }
+    else if(tokens[i].type==')'){
+      match-=1;
+    }
+    if(match<0){
+      //flag = false;
+      *success=false;
+      return false;
+    }
+  }
+
+  if(match==0)
+  {
+    *success=true;
+    if(tokens[l].type=='('&&tokens[r].type==')')
+      return true;
+  }
+  return false;
+}
+
 uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
