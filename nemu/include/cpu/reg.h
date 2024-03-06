@@ -50,7 +50,7 @@ typedef struct {
     uint32_t eflags;
   };
 
-  uint32_t cs;
+  /*uint32_t cs;
 
   struct{
     uint32_t base;
@@ -59,7 +59,7 @@ typedef struct {
 
   CR0 cr0;
   CR3 cr3;
-  bool INTR;
+  bool INTR;*/
 
 } CPU_state;
 
