@@ -184,6 +184,13 @@ static bool make_token(char *e) {
             ++nr_token;
             break;
           }
+          case TK_NOT:
+          {
+            tokens[nr_token].type=rules[i].token_type;
+            tokens[nr_token].preference=OP_NOT;
+            ++nr_token;
+            break;
+          }
           case DEC:
           case HEX:{
             for(int i=0;i<substr_len;i++){
@@ -192,6 +199,7 @@ static bool make_token(char *e) {
             tokens[nr_token].str[substr_len] = '\0';
             tokens[nr_token].preference=OP_VAL;
           }
+  
           default: {
             tokens[nr_token].type = rules[i].token_type;
             nr_token++;
