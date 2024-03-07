@@ -275,7 +275,7 @@ static int find_dominant_operator(int l, int r , bool *success)
       if(cur_level<2)  //not operator
         continue;
 
-      if(cur_level>=max_level)
+      if(cur_level>max_level)
       {
         max_level=cur_level;
         index=i;
