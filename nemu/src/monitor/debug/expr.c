@@ -286,7 +286,7 @@ static int find_dominant_operator(int l, int r , bool *success)
 }
 
 
-static uint32_t eval(int l, int r, bool *success)
+static int32_t eval(int l, int r, bool *success)
 {
   if(l>r){
     //*success=false;
@@ -330,7 +330,7 @@ static uint32_t eval(int l, int r, bool *success)
   else
   {
     int op_index=find_dominant_operator(l,r,success);
-    uint32_t val2=0;
+    int32_t val2=0;
     val2=eval(op_index+1,r,success);
     printf("val2=%d\n",val2);
     if(tokens[op_index].type==TK_NOT)
@@ -343,7 +343,7 @@ static uint32_t eval(int l, int r, bool *success)
     else if(tokens[op_index].type==TK_POINT)
       return vaddr_read(val2,4);
     
-    uint32_t val1=0;
+    int32_t val1=0;
     val1=eval(l,op_index-1,success);
     printf("val1=%d\n",val1);
     if(!*success)
@@ -397,7 +397,7 @@ uint32_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  uint32_t result=eval(0,nr_token-1,success);
+  int32_t result=eval(0,nr_token-1,success);
 
   return result;
 }
