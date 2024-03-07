@@ -43,10 +43,10 @@ static struct rule {
   {"\\|\\|", TK_LOR},      // log-or
   {"&&", TK_LAND},         // log-and
 
-
+  {"\\$[eE][0-9a-zA-Z]{2}", REG}, // registers
   {"0[xX][a-fA-F0-9]+", HEX}, // hex
   {"[0-9]|([1-9][0-9]*)", DEC}, // decimal
-  {"\\$[eE][0-9a-zA-Z]{2}", REG}, // registers
+
 
   {"\\(", '('},          // l-paren
   {"\\)", ')'},          // r-paten
@@ -210,7 +210,7 @@ static bool make_token(char *e) {
 
   for(int i=0;i<nr_token;i++)
   {
-    if(tokens[i].type=='*'&&((tokens[i].preference==OP_VAL)||i==0)){
+    if(tokens[i].type=='*'&&((tokens[i].preference>1)||i==0)){
       tokens[i].type = TK_POINT;
     }
   }
