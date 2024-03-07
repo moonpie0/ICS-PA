@@ -31,7 +31,6 @@ static struct rule {
    */
 
   {" +", TK_NOTYPE},    // spaces
-    {"!", TK_NOT},          //log-not
   {"\\+", '+'},         // plus
   {"\\-", '-'},          // minus
   {"\\*", '*'},          // multi/getval
@@ -40,7 +39,7 @@ static struct rule {
   {"!=", TK_NEQ},       // not equal
   {"\\|", TK_OR},        // calc-or
   {"&", TK_AND},         // calc-and
-  //{"!", TK_NOT},          //log-not
+  {"!", TK_NOT},          //log-not
   {"\\|\\|", TK_LOR},      // log-or
   {"&&", TK_LAND},         // log-and
 
