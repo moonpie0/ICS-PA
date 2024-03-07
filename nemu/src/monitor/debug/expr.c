@@ -345,6 +345,7 @@ static uint32_t eval(int l, int r, bool *success)
     
     uint32_t val1=0;
     val1=eval(l,op_index-1,success);
+    printf("val2=%d\n",val2);
     if(!*success)
       return 0;
 
