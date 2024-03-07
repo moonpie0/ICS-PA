@@ -289,7 +289,7 @@ static int find_dominant_operator(int l, int r , bool *success)
 static uint32_t eval(int l, int r, bool *success)
 {
   if(l>r){
-    *success=false;
+    //*success=false;
     return 0;
   }
   if(l==r)
