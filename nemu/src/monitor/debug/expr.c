@@ -330,10 +330,10 @@ static uint32_t eval(int l, int r, bool *success)
   else
   {
     int op_index=find_dominant_operator(l,r,success);
-    printf("dominant operator's index:%d\n",op_index);
+    //printf("dominant operator's index:%d\n",op_index);
     uint32_t val2=0;
     val2=eval(op_index+1,r,success);
-    printf("val2=%d\n",val2);
+    //printf("val2=%d\n",val2);
     if(tokens[op_index].type==TK_NOT)
     {
       if(*success)
@@ -346,7 +346,7 @@ static uint32_t eval(int l, int r, bool *success)
     
     uint32_t val1=0;
     val1=eval(l,op_index-1,success);
-    printf("val1=%d\n",val1);
+    //printf("val1=%d\n",val1);
     if(!*success)
       return 0;
 
