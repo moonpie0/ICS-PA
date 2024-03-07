@@ -1,4 +1,5 @@
 #include "nemu.h"
+#include <stdlib.h>
 
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
@@ -15,7 +16,7 @@ enum {
   TK_LAND, TK_LOR, TK_NOT,
   DEC, HEX,
   REG,
-  TK_VAL,
+  TK_POINT,
 
 
 };
@@ -209,7 +210,7 @@ static bool make_token(char *e) {
   for(int i=0;i<nr_token;i++)
   {
     if(tokens[i].type=='*'&&((tokens[i].preference==OP_VAL)||i==0)){
-      tokens[i].type = TK_VAL;
+      tokens[i].type = TK_POINT;
     }
   }
 
@@ -276,6 +277,108 @@ static int find_dominant_operator(int l, int r , bool *success)
 }
 
 
+static uint32_t eval(int l, int r, bool *success)
+{
+  if(l>r){
+    *success=false;
+    return 0;
+  }
+  if(l==r)
+  {
+    *success=true;
+    switch(tokens[l].type)
+    {
+      case DEC:
+      {
+        int dec = atoi(tokens[l].str);
+        return dec;
+      }
+      case HEX:
+      {
+        uint32_t hex;
+        sscanf(tokens[l].str, "0x%x", &hex);
+        return hex;
+      }
+      case REG:
+      {
+        if(strcmp(&tokens[l].str[1],"eip")==0) 
+          return cpu.eip;
+        for(int i=0;i<8;i++){
+          if(strcmp(&tokens[l].str[1],reg_name(i,4))==0) 
+            return reg_l(i);
+        }
+        printf("register's name has error\n");
+      }
+      default:
+      {
+        *success=false;
+        return 0;
+      }
+    }
+  }
+  else if(check_parentheses(l,r,success))
+    return eval(l+1,r-1,success);
+  else
+  {
+    int op_index=find_dominant_operator(l,r,success);
+    uint32_t val2=0;
+    val2=eval(op_index+1,r,success);
+    if(tokens[op_index].type==TK_NOT)
+    {
+      if(*success)
+        return !val2;
+      else 
+        return 0;
+    }
+    else if(tokens[op_index].type==TK_POINT)
+      return vaddr_read(val2,4);
+    
+    uint32_t val1=0;
+    val1=eval(l,op_index-1,success);
+    if(!*success)
+      return 0;
+
+    switch(tokens[op_index].type)
+    {
+      case '+':
+        return val1+val2;
+      case '-':
+      return val1-val2;
+    case '*':
+      return val1*val2;
+    case '/':
+    {
+      if(val2==0)
+      {
+        printf("0 cannot be divided\n");
+        *success = false;
+        return 0;
+      }
+      else
+        return val1/val2;
+    }
+    case TK_EQ:
+      return val1==val2;
+    case TK_NEQ:
+      return val1!=val2;
+    case TK_LAND:
+      return val1&&val2;
+    case TK_LOR:
+      return val1||val2;
+    case TK_AND:
+      return val1&val2;
+    case TK_OR:
+      return val1|val2;
+    default:
+    {
+      *success=false;
+      printf("Fail!\n");
+      return 0;
+    }
+  }
+  }
+
+}
 uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
@@ -283,7 +386,8 @@ uint32_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  TODO();
+  uint32_t result=eval(0,nr_token-1,success);
 
-  return 0;
+  return result;
 }
+
