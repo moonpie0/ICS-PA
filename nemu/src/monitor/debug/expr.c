@@ -242,6 +242,40 @@ bool check_parentheses(int l, int r,bool *success){
   return false;
 }
 
+static int find_dominant_operator(int l, int r , bool *success)
+{
+    int max_level=-1, index=-1;
+    int match_paren=0;
+    for(int i=l;i<=r;i++)
+    {
+      if(tokens[i].type=='(')
+      {
+        match_paren++;
+        continue;
+      }
+      else if(tokens[i].type==')')
+      {
+        match_paren--;
+        continue;
+      }
+
+      if(match_paren!=0)
+        continue;
+      int cur_level=tokens[i].preference;
+      if(cur_level<2)  //not operator
+        continue;
+
+      if(cur_level>=max_level)
+      {
+        max_level=cur_level;
+        index=i;
+      }
+
+    }
+    return index;
+}
+
+
 uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
