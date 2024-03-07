@@ -43,8 +43,9 @@ static struct rule {
   {"\\|\\|", TK_LOR},      // log-or
   {"&&", TK_LAND},         // log-and
 
-  {"[0-9]|([1-9][0-9]*)", DEC}, // decimal
+
   {"0[xX][a-fA-F0-9]+", HEX}, // hex
+  {"[0-9]|([1-9][0-9]*)", DEC}, // decimal
   {"\\$[eE][0-9a-zA-Z]{2}", REG}, // registers
 
   {"\\(", '('},          // l-paren
