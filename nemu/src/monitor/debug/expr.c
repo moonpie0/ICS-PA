@@ -289,7 +289,7 @@ static int find_dominant_operator(int l, int r , bool *success)
 static uint32_t eval(int l, int r, bool *success)
 {
   if(l>r){
-    //*success=false;
+    *success=false;
     return 0;
   }
   if(l==r)
@@ -332,7 +332,8 @@ static uint32_t eval(int l, int r, bool *success)
     int op_index=find_dominant_operator(l,r,success);
     //printf("dominant operator's index:%d\n",op_index);
     uint32_t val2=0;
-    val2=eval(op_index+1,r,success);
+    if(tokens[op_index].type!='+'&&tokens[op_index].type!='-')
+      val2=eval(op_index+1,r,success);
     //printf("val2=%d\n",val2);
     if(tokens[op_index].type==TK_NOT)
     {
