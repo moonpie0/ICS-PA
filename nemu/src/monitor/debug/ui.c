@@ -102,7 +102,7 @@ static int cmd_info(char *args)
   char *arg =strtok(NULL, "");
   if(arg==NULL)
   {
-    printf("Please input subcmd 'r' or 'w'\n");
+    printf("Please input SUBCMD 'r' or 'w'\n");
     return 0;
   }
 
@@ -111,6 +111,8 @@ static int cmd_info(char *args)
       printf("%s:0x%x\n", reg_name(i,4),reg_l(i));
   else if(strcmp(arg,"w")==0)
   ;
+  else
+    printf("No such SUBCMD! Please input 'r' or 'w'\n");
   
   return 0;
 }
