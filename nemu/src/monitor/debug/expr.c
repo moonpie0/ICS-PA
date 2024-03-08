@@ -332,7 +332,7 @@ static uint32_t eval(int l, int r, bool *success)
     int op_index=find_dominant_operator(l,r,success);
     //printf("dominant operator's index:%d\n",op_index);
     uint32_t val2=0;
-    if(tokens[op_index].type!='+'&&tokens[op_index].type!='-')
+
       val2=eval(op_index+1,r,success);
     //printf("val2=%d\n",val2);
     if(tokens[op_index].type==TK_NOT)
@@ -346,6 +346,7 @@ static uint32_t eval(int l, int r, bool *success)
       return vaddr_read(val2,4);
     
     uint32_t val1=0;
+        if(tokens[op_index].type!='+'&&tokens[op_index].type!='-')
     val1=eval(l,op_index-1,success);
     //printf("val1=%d\n",val1);
     if(!*success)
