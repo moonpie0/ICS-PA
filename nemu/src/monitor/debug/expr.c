@@ -218,7 +218,7 @@ static bool make_token(char *e) {
 
   for(int i=0;i<nr_token;i++)
   {
-    if(tokens[i].type=='*'&&((tokens[i].preference>1)||i==0)){
+    if(tokens[i].type=='*'&&((tokens[i-1].preference>1)||i==0)){
       tokens[i].type = TK_POINT;
     }
   }
