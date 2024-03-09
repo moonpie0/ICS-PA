@@ -191,6 +191,7 @@ static bool make_token(char *e) {
             ++nr_token;
             break;
           }
+          case REG:
           case DEC:
           case HEX:{
             for(int i=0;i<substr_len;i++){
