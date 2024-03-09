@@ -347,10 +347,10 @@ static uint32_t eval(int l, int r, bool *success)
     
     uint32_t val1=0;
         if(l<=op_index-1)
-      val2=eval(l,op_index-1,success);
+      val1=eval(l,op_index-1,success);
     else
       if(tokens[op_index].type!='+'&&tokens[op_index].type!='-')
-        val2=eval(l,op_index-1,success);
+        val1=eval(l,op_index-1,success);
     printf("val1=%d\n",val1);
     if(!*success)
       return 0;
