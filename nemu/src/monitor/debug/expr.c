@@ -334,7 +334,7 @@ static uint32_t eval(int l, int r, bool *success)
     uint32_t val2=0;
 
       val2=eval(op_index+1,r,success);
-    printf("val2=%d\n",val2);
+    //printf("val2=%d\n",val2);
     if(tokens[op_index].type==TK_NOT)
     {
       if(*success)
@@ -351,7 +351,7 @@ static uint32_t eval(int l, int r, bool *success)
     else
       if(tokens[op_index].type!='+'&&tokens[op_index].type!='-')
         val1=eval(l,op_index-1,success);
-    printf("val1=%d\n",val1);
+    //printf("val1=%d\n",val1);
     if(!*success)
       return 0;
 
