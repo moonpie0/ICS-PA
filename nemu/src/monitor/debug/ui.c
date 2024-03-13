@@ -28,6 +28,8 @@ char* rl_gets() {
 }
 
 void print_wp(void);
+WP* new_wp();
+void free_wp(WP* wp);
 
 static int cmd_c(char *args) {
   cpu_exec(-1);
@@ -57,6 +59,8 @@ static int cmd_x(char *args);
 
 static int cmd_p(char *args);
 
+static int cmd_w(char *args);
+
 static struct {
   char *name;
   char *description;
@@ -71,6 +75,7 @@ static struct {
   {"info","Print the statement of programs, 'r'is register and 'w'is watchpoint",cmd_info},
   {"x", "scan the memory, regard the result of expr as address and print", cmd_x},
   {"p", "Print the result of the expression",cmd_p},
+  {"w","Set watchpoint at expr's value",cmd_w},
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
@@ -158,6 +163,30 @@ static int cmd_p(char *args){
     printf("Your expression is erroneous!\n");
   else
     printf("the result is: %d\n",result);
+  return 0;
+}
+
+static int cmd_w(char *args){
+  char *arg =strtok(NULL, "");
+  if(arg==NULL)
+  {
+    printf("Please input expression\n");
+    return 0;
+  }
+  bool success=false;
+  uint32_t result=expr(arg, &success);
+  if(!success)
+  {
+    printf("Your expression is erroneous!\n");
+    return 0;
+  }
+
+  WP *wp=new_wp();
+  wp->value=result;
+  int i;
+  for(i=0;arg[i];i++)
+    wp->expr[i]=arg[i];
+  wp->expr[i]='\0';
   return 0;
 }
 
