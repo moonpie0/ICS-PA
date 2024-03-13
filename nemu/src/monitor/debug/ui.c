@@ -187,6 +187,7 @@ static int cmd_w(char *args){
   for(i=0;arg[i];i++)
     wp->expr[i]=arg[i];
   wp->expr[i]='\0';
+  printf("Set watchpoint successfully!\n");
   return 0;
 }
 
