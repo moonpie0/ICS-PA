@@ -27,6 +27,8 @@ char* rl_gets() {
   return line_read;
 }
 
+void print_wp(void);
+
 static int cmd_c(char *args) {
   cpu_exec(-1);
   return 0;
@@ -110,7 +112,7 @@ static int cmd_info(char *args)
     for(int i=0;i<8;i++)
       printf("%s:0x%x\n", reg_name(i,4),reg_l(i));
   else if(strcmp(arg,"w")==0)
-  ;
+    print_wp();
   else
     printf("No such SUBCMD! Please input 'r' or 'w'\n");
   
