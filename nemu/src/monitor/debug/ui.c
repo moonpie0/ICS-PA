@@ -30,6 +30,7 @@ char* rl_gets() {
 void print_wp(void);
 WP* new_wp();
 void free_wp(WP* wp);
+WP *search_wp(int NO);
 
 static int cmd_c(char *args) {
   cpu_exec(-1);
@@ -61,6 +62,8 @@ static int cmd_p(char *args);
 
 static int cmd_w(char *args);
 
+static int cmd_d(char *args);
+
 static struct {
   char *name;
   char *description;
@@ -76,6 +79,7 @@ static struct {
   {"x", "scan the memory, regard the result of expr as address and print", cmd_x},
   {"p", "Print the result of the expression",cmd_p},
   {"w","Set watchpoint at expr's value",cmd_w},
+  {"d","Delete watchpoint",cmd_d},
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
@@ -138,8 +142,10 @@ static int cmd_x(char *args){
     return 0;
   }
   //uint32_t addr_begin = strtoul(arg2,NULL,16);
-  uint32_t addr_begin ;
-  sscanf(arg2, "0x%x", &addr_begin);
+  bool success=true;
+  uint32_t addr_begin=expr(arg2, &success);
+  //uint32_t  ;
+  //sscanf(arg2, "0x%x", &addr_begin);
   printf("the result of expr is:%x\n",addr_begin);
   for(int i=0;i<i_arg1;i++){
     printf("0x%x ", vaddr_read(addr_begin,1));
@@ -188,6 +194,22 @@ static int cmd_w(char *args){
     wp->expr[i]=arg[i];
   wp->expr[i]='\0';
   printf("Set watchpoint successfully!\n");
+  return 0;
+}
+
+static int cmd_d(char *args){
+  char *arg =strtok(NULL, "");
+  if(arg==NULL)
+  {
+    printf("Please input the wp's NO\n");
+    return 0;
+  }
+  int no = atoi(arg);
+  WP *wp=search_wp(no);
+  if(wp)
+    free_wp(wp);
+  else
+    printf("No such watchpoint!\n");
   return 0;
 }
 

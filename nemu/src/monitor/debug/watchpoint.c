@@ -36,6 +36,17 @@ WP* new_wp(){
   return wp;
 }
 
+WP *search_wp(int NO){
+  WP *cur = head;
+  while(cur)
+  {
+    if(cur->NO == NO)
+      return cur;
+    cur = cur -> next;
+  }
+  return NULL;
+}
+
 void free_wp(WP *wp){
   WP *cur = head;
   WP *pre = NULL;
