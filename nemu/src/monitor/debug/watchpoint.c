@@ -32,6 +32,43 @@ WP* new_wp(){
   wp -> next = head;
   head = wp;
 
-  //wp->value=1;
+  wp->value=1;
   return wp;
 }
+
+void free_wp(WP *wp){
+  WP *cur = head;
+  WP *pre = NULL;
+  while(cur)
+  {
+    if(cur == wp)
+    {
+      if(pre)
+        pre -> next = cur -> next;
+      else
+        head = cur -> next;
+      cur -> next = free_;
+      free_ = cur;
+      break;
+    }
+    pre = cur;
+    cur = cur -> next;
+  }
+}
+
+
+void print_wp()
+{
+  WP *cur=head;
+  if(cur==NULL)
+  {
+    printf("No watchpoints!\n");
+    return;
+  }
+  while(cur)
+  {
+    printf("No:%d, Expr:%s, Val:%d\n",cur->NO,cur->expr,cur->value);
+    cur=cur->next;
+  }
+}
+
