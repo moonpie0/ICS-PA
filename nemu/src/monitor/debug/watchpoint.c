@@ -83,3 +83,25 @@ void print_wp()
   }
 }
 
+bool check_watchpoints_value( ){
+  WP *cur=head;
+  bool flag=false,success=true;
+  while(cur)
+  {
+    uint32_t result=expr(cur->expr,&success);
+    if(!success)
+    {
+      printf("Calculate expression fail/n");
+      continue;
+    }
+    if(result != cur->value)
+    {
+      flag=true;
+      printf("No:%d, Expr:%s, Val:%d, New Val:%d\n", cur->NO, cur->expr, cur->value, result);
+      cur->value=result;
+    }
+    cur=cur->next;
+  }
+  return flag;
+}
+
