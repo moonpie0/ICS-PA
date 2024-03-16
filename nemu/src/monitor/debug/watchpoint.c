@@ -32,7 +32,7 @@ WP* new_wp(){
   wp -> next = head;
   head = wp;
 
-  wp->value=1;
+  //wp->value=1;
   return wp;
 }
 
