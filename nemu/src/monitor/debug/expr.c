@@ -11,7 +11,7 @@ enum {
   TK_NOTYPE = 256, TK_EQ, 
 
   /* TODO: Add more token types */
-  TK_NEQ, 
+  TK_NEQ, TK_LE,
   TK_OR, TK_AND, 
   TK_LAND, TK_LOR, TK_NOT,
   DEC, HEX,
@@ -35,6 +35,7 @@ static struct rule {
   {"\\-", '-'},          // minus
   {"\\*", '*'},          // multi/getval
   {"\\/", '/'},          // div
+  {"<=",TK_LE},         // less than equal
   {"==", TK_EQ},         // equal
   {"!=", TK_NEQ},       // not equal
   {"\\|", TK_OR},        // calc-or
@@ -148,6 +149,7 @@ static bool make_token(char *e) {
             ++nr_token;
             break;
           }
+          case TK_LE:
           case TK_EQ:
           case TK_NEQ:
           {
@@ -347,7 +349,7 @@ static uint32_t eval(int l, int r, bool *success)
       return vaddr_read(val2,4);
     
     uint32_t val1=0;
-        if(l<=op_index-1)
+    if(l<=op_index-1)
       val1=eval(l,op_index-1,success);
     else
       if(tokens[op_index].type!='+'&&tokens[op_index].type!='-')
@@ -375,6 +377,8 @@ static uint32_t eval(int l, int r, bool *success)
       else
         return val1/val2;
     }
+    case TK_LE:
+      return val1<=val2;
     case TK_EQ:
       return val1==val2;
     case TK_NEQ:
@@ -408,4 +412,5 @@ uint32_t expr(char *e, bool *success) {
 
   return result;
 }
+
 
