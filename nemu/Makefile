@@ -59,4 +59,5 @@ count-no-empty:
 count:
 	find -name "*.c" -o -name "*.h" | xargs cat | wc -l
 
-
+line:
+	git log --oneline | wc -l
