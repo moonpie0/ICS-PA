@@ -32,9 +32,10 @@ typedef struct {
   rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
    };
   };
+
   vaddr_t eip;
 
-/*
+
   union{
     struct{
       uint32_t CF : 1;  //carry flag
@@ -50,18 +51,8 @@ typedef struct {
     };
     uint32_t eflags;
   };
-*/
 
-  /*uint32_t cs;
 
-  struct{
-    uint32_t base;
-    uint32_t limit;
-  }idtr;
-
-  CR0 cr0;
-  CR3 cr3;
-  bool INTR;*/
 
 } CPU_state;
 
