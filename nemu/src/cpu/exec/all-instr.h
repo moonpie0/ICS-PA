@@ -18,4 +18,6 @@ make_EHelper(push);
 
 //arith.c
 make_EHelper(sub);
+
+//logic.c
 make_EHelper(xor);
