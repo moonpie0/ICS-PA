@@ -36,8 +36,7 @@ typedef struct {
   vaddr_t eip;
 
 
-  union{
-    struct{
+  struct bs {
       uint32_t CF : 1;  //carry flag
       uint32_t    : 1;
       uint32_t    : 4;  //party & auxiliary carry
@@ -48,9 +47,7 @@ typedef struct {
       uint32_t DF : 1;  //direction flag
       uint32_t OF : 1;  //overflow flag
       uint32_t    : 20; 
-    };
-    uint32_t eflags;
-  };
+    }eflags;
 
 
 
