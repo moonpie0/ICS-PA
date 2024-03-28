@@ -15,3 +15,6 @@ make_EHelper(jmp_rm);
 
 //data-mov.c
 make_EHelper(push);
+
+//arith.c
+make_EHelper(sub);
