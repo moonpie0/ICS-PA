@@ -58,3 +58,5 @@ make_EHelper(setcc);
 //system.c
 make_EHelper(lidt);
 
+make_EHelper(nop);
+
