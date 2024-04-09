@@ -32,6 +32,7 @@ make_EHelper(sbb);
 make_EHelper(cmp);
 make_EHelper(inc);
 make_EHelper(dec);
+make_EHelper(neg);
 
 //logic.c
 make_EHelper(xor);
