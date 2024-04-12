@@ -2,67 +2,54 @@
 
 
 static inline void eflags_modify() {
-  // 计算两个操作数的差值
-  rtl_sub(&t2, &id_dest->val, &id_src->val);
-  // 更新ZF、SF标志位
-  rtl_update_ZFSF(&t2, id_dest->width);
-  // 判断无符号数相减是否产生借位
-  rtl_sltu(&t0, &id_dest->val, &id_src->val);
-  // 设置CF标志位
+  rtl_sub(&t2, &id_dest -> val, &id_src -> val);
+  rtl_update_ZFSF(&t2, id_dest -> width);
+  rtl_sltu(&t0, &id_dest -> val, &id_src -> val);
   rtl_set_CF(&t0);
-  // 计算两个操作数的异或值
   rtl_xor(&t0, &id_dest->val, &id_src->val);
-  // 计算结果与原目标操作数异或的值
   rtl_xor(&t1, &id_dest->val, &t2);
-  // 对结果进行与操作
   rtl_and(&t0, &t0, &t1);
-  // 判断最高位是否溢出
   rtl_msb(&t0, &t0, id_dest->width);
-  // 设置OF标志位
   rtl_set_OF(&t0);
 }
-
 make_EHelper(add) {
-  // 执行加法运算
+  // TODO();
+
   rtl_add(&t2, &id_dest->val, &id_src->val);
   operand_write(id_dest, &t2);
 
-  // 更新ZF、SF标志位
   rtl_update_ZFSF(&t2, id_dest->width);
 
-  // 判断无符号数相加是否产生进位
   rtl_sltu(&t0, &t2, &id_dest->val);
-  // 设置CF标志位
   rtl_set_CF(&t0);
 
-  // 计算溢出标志位OF
-  eflags_modify();
-
+  rtl_xor(&t0, &id_src->val, &t2);
+  rtl_xor(&t1, &id_dest->val, &t2);
+  rtl_and(&t0, &t0, &t1);
+  rtl_msb(&t0, &t0, id_dest->width);
+  rtl_set_OF(&t0);
   print_asm_template2(add);
 }
 
 make_EHelper(sub) {
-  // 执行减法运算并更新标志寄存器
+  //TODO();
   eflags_modify();
   operand_write(id_dest, &t2);
   print_asm_template2(sub);
 }
 
 make_EHelper(cmp) {
-  TODO(); // 待实现
+  TODO();
 
   print_asm_template2(cmp);
 }
 
 make_EHelper(inc) {
-  // TODO();
+  //TODO();
 
-  // 执行加一操作
   rtl_addi(&t2, &id_dest->val, 1);
   operand_write(id_dest, &t2);
-  // 更新ZF、SF标志位
   rtl_update_ZFSF(&t2, id_dest->width);
-  // 判断是否溢出
   rtl_eqi(&t0, &t2, 0x80000000);
   rtl_set_OF(&t0);
   print_asm_template1(inc);
@@ -71,12 +58,9 @@ make_EHelper(inc) {
 make_EHelper(dec) {
   // TODO();
 
-  // 执行减一操作
   rtl_subi(&t2, &id_dest->val, 1);
   operand_write(id_dest, &t2);
-  // 更新ZF、SF标志位
   rtl_update_ZFSF(&t2, id_dest->width);
-  // 判断是否溢出
   rtl_eqi(&t0, &t2, 0x7fffffff);
   rtl_set_OF(&t0);
   print_asm_template1(dec);
@@ -85,20 +69,15 @@ make_EHelper(dec) {
 make_EHelper(neg) {
   // TODO();
 
-  // 执行取负操作
   rtl_sub(&t2, &tzero, &id_dest->val);
-  // 更新ZF、SF标志位
   rtl_update_ZFSF(&t2, id_dest->width);
-  // 判断是否为0
-  rtl_neq0(&t0, &id_dest->val);
+  rtl_neq0(&t0,&id_dest->val);
   rtl_set_CF(&t0);
-  // 判断是否溢出
-  rtl_eqi(&t0, &id_dest->val, 0x80000000);
+  rtl_eqi(&t0,&id_dest->val,0x80000000);
   rtl_set_OF(&t0);
-  operand_write(id_dest, &t2);
+  operand_write(id_dest,&t2);
   print_asm_template1(neg);
 }
-
 
 make_EHelper(adc) {
   rtl_add(&t2, &id_dest->val, &id_src->val);
