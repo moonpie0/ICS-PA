@@ -49,7 +49,10 @@ typedef struct {
       uint32_t    : 20; 
     }eflags;
 
-
+ struct IDTR{
+    uint32_t base;
+    uint16_t limit;
+ }idtr;
 
 } CPU_state;
 
