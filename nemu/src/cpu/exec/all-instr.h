@@ -62,3 +62,7 @@ make_EHelper(nop);
 make_EHelper(in);
 make_EHelper(out);
 make_EHelper(int);
+make_EHelper(iret);
+
+//special.c
+make_EHelper(endbr);
