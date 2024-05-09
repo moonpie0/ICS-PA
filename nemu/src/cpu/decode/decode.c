@@ -317,4 +317,9 @@ make_DHelper(lidt_a) {
   decode_op_a(eip, id_dest, true);
 }
 
+make_DHelper(int3) {
+  id_dest->type = OP_TYPE_IMM;
+  id_dest->imm = 3;
+  rtl_li(&id_dest->val, id_dest->imm);
+}
 

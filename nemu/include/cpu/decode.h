@@ -114,4 +114,6 @@ make_DHelper(out_a2dx);
 
 make_DHelper(lidt_a);
 
+make_DHelper(int3);
+
 #endif
