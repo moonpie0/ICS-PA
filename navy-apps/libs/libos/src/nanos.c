@@ -31,8 +31,18 @@ return _syscall_(SYS_write, fd, (uintptr_t)buf, count);
 }
 
 void *_sbrk(intptr_t increment){
+  extern int end;
+  static uintptr_t probreak = (uintptr_t)&end;
+  uintptr_t probreak_new = probreak + increment;
+  int r = _syscall_(SYS_brk, probreak_new, 0, 0);
+  if(r == 0) {
+    uintptr_t temp = probreak;
+    probreak = probreak_new;
+    return (void*)temp;
+  }
   return (void *)-1;
 }
+
 
 int _read(int fd, void *buf, size_t count) {
   _exit(SYS_read);
