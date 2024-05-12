@@ -38,7 +38,7 @@ _RegSet* do_syscall(_RegSet *r) {
       SYSCALL_ARG1(r) = sys_none();
       break;
     case SYS_exit: 
-Log("1");
+//Log("1");
       sys_exit(a[1]);
       break;
      case SYS_write:
