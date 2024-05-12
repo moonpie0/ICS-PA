@@ -33,7 +33,7 @@ _RegSet* do_syscall(_RegSet *r) {
   a[2] = SYSCALL_ARG3(r);
   a[3] = SYSCALL_ARG4(r);
 
-  Log("ARG1= %s", a[0]);
+  Log("ARG1= %d", a[0]);
 
   switch (a[0]) {
     case SYS_none: 
