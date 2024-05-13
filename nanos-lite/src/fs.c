@@ -5,6 +5,10 @@ extern void ramdisk_write(const void *buf, off_t offset, size_t len);
 
 extern void fb_write(const void *buf, off_t offset, size_t len);
 
+extern void getScreen(int *p_width, int *p_height);
+
+void dispinfo_read(void *buf, off_t offset, size_t len);
+extern size_t events_read(void *buf, size_t len);
 
 
 typedef struct {
@@ -31,7 +35,11 @@ static Finfo file_table[] __attribute__((used)) = {
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
-
+  int width = 0;
+  int height = 0;
+  getScreen(&width, &height);
+  file_table[FD_FB].size = width * height * sizeof(u_int32_t);
+  Log("set FD_FB size = %d", file_table[FD_FB].size);
 }
 
 
@@ -95,8 +103,7 @@ ssize_t fs_write(int fd, void *buf, size_t len){
   return n;
 }
 
-void dispinfo_read(void *buf, off_t offset, size_t len);
-extern size_t events_read(void *buf, size_t len);
+
 ssize_t fs_read(int fd, void *buf, size_t len){
   assert(fd >= 0 && fd < NR_FILES);
   if(fd < 3 || fd == FD_FB) {

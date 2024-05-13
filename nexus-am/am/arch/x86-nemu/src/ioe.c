@@ -41,3 +41,8 @@ void _draw_sync() {
 int _read_key() {
   return _KEY_NONE;
 }
+
+void getScreen(int *width, int *height) {
+  *width = _screen.width;
+  *height = _screen.height;
+}
