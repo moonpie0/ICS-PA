@@ -30,7 +30,7 @@ int main() {
 
   init_fs();
 
-  uint32_t entry = loader(NULL, "/share/games/pal/1");
+  uint32_t entry = loader(NULL, "/share/games/pal/1.rpg");
   ((void (*)(void))entry)();
 
   panic("Should not reach here");
