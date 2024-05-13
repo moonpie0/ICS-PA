@@ -21,9 +21,12 @@ Log("buffer:%s", (char*)buf);
 		}
 		return len;
 	}
-   else{
-     panic("Unhandled fd=%d in sys_write()",fd);
-   }
+  // else
+    // panic("Unhandled fd=%d in sys_write()",fd);
+   if(fd >= 3) {
+    return fs_write(fd, buf, len);
+  }
+  Log("fd <= 0");
 	return -1;			
 }
 
