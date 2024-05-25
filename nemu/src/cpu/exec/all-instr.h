@@ -66,3 +66,5 @@ make_EHelper(iret);
 
 //special.c
 make_EHelper(endbr);
+make_EHelper(mov_store_cr);
+make_EHelper(mov_load_cr);
