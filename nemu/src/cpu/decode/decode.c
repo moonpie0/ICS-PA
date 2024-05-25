@@ -323,3 +323,18 @@ make_DHelper(int3) {
   rtl_li(&id_dest->val, id_dest->imm);
 }
 
+make_DHelper(mov_load_cr) {
+  decode_op_rm(eip, id_dest, false, id_src, false);
+  rtl_load_cr(&id_src -> val, id_src -> reg);
+#ifdef DEBUG
+  snprintf(id_src -> str, 5, "%%cr%d", id_dest -> reg);
+#endif
+}
+
+make_DHelper(mov_store_cr) {
+  decode_op_rm(eip, id_src, true, id_dest, false);
+#ifdef DEBUG
+  snprintf(id_src -> str, 5, "%%cr%d", id_dest -> reg);
+#endif
+}
+

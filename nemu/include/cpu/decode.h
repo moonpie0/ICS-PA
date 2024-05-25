@@ -116,4 +116,7 @@ make_DHelper(lidt_a);
 
 make_DHelper(int3);
 
+make_DHelper(mov_load_cr);
+make_DHelper(mov_store_cr);
+
 #endif
