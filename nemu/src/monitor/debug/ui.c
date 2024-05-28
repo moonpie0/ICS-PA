@@ -108,25 +108,49 @@ static int cmd_help(char *args) {
 }
 
 
-static int cmd_info(char *args)
-{
-  char *arg =strtok(NULL, "");
-  if(arg==NULL)
-  {
-    printf("Please input SUBCMD 'r' or 'w'\n");
+
+static int cmd_info(char *args) {
+  char s;
+  if(args == NULL) {
+    printf("args error in cmd_info (miss args)\n");
     return 0;
   }
-
-  if(strcmp(arg,"r")==0)
-    for(int i=0;i<8;i++)
-      printf("%s:0x%x\n", reg_name(i,4),reg_l(i));
-  else if(strcmp(arg,"w")==0)
-    print_wp();
-  else
-    printf("No such SUBCMD! Please input 'r' or 'w'\n");
-  
+  int temp = sscanf(args, "%c", &s);
+  if(temp <= 0) {
+    //解析失败
+    printf("args error in cmd_info\n");
+    return 0;
+  }
+  if(s == 'w') {
+    //打印监视点信息
+    print_wp();;
+    return 0;
+  }
+  if(s == 'r') {
+    //打印寄存器
+    //32bit
+    for(int i = 0; i < 8; i++) {
+      printf("%s  0x%x\n", regsl[i], reg_l(i));
+    }
+    printf("eip  0x%x\n", cpu.eip);
+    //16bit
+    for(int i = 0; i < 8; i++) {
+      printf("%s  0x%x\n", regsw[i], reg_w(i));
+    }
+    //8bit
+    for(int i = 0; i < 8; i++)
+    {
+      printf("%s  0x%x\n", regsb[i], reg_b(i));
+    }
+    printf("eflags:CF=%d,ZF=%d,SF=%d,IF=%d,OF=%d\n", cpu.eflags.CF, cpu.eflags.ZF, cpu.eflags.SF, cpu.eflags.IF, cpu.eflags.OF);
+    printf("CR0=0x%x, CR3=0x%x\n", cpu.CR0, cpu.CR3);
+    return 0;
+  }
+  //如果产生错误
+  printf("args error in cmd_info\n");
   return 0;
 }
+
 
 static int cmd_x(char *args){
   char *arg1 = strtok(NULL, " ");
