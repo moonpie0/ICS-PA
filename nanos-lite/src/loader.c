@@ -6,7 +6,7 @@ extern uint8_t ramdisk_end;
 
 extern void ramdisk_read(void *buff, off_t offset, size_t len);
 
-#define DEFAULT_ENTRY ((void *)0x4000000)
+#define DEFAULT_ENTRY ((void *)0x8048000)
 
 #define RAMDISK_SIZE ((&ramdisk_end) - (&ramdisk_start))
 
