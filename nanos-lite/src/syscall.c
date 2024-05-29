@@ -31,7 +31,9 @@ int sys_write(int fd, void *buf, size_t len) {
 }
 
 int sys_brk(int addr) {
-  return 0;
+  extern int mm_brk(uint32_t new_brk);
+  return mm_brk(addr);
+  //return 0;
 }
 
 int sys_open(const char *pathname){
