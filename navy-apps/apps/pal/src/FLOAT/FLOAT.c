@@ -23,7 +23,16 @@ FLOAT f2F(float a) {
    * performing arithmetic operations on it directly?
    */
 
-  assert(0);
+  union float_{
+      struct {
+ 	uint32_t m : 23;
+	uint32_t e : 8;
+	uint32_t signal : 1;
+      };
+      uint32_t value;
+
+  };
+  union float_ f;
   return 0;
 }
 
