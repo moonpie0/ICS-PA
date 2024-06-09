@@ -104,3 +104,23 @@ make_EHelper(rol) {
 
   print_asm_template2(rol);
 }
+
+make_EHelper(ror){
+    rtl_li(&t0,31);
+	rtl_and(&id_src->val,&t0,&id_src->val);
+    rtl_li(&t1,(8*id_dest->width)-id_src->val);
+    rtl_shr(&t2,&id_dest->val,&id_src->val);
+    rtl_shl(&t3,&id_dest->val,&t1);
+	rtl_or(&t2,&t2,&t3);
+
+	if(id_src->val==1){
+	  rtl_msb(&t3,&t2,id_dest->width);
+	  rtl_shl(&t1,&t2,&id_src->val);
+	  rtl_msb(&t1,&t1,id_dest->width);
+	  rtl_xor(&t1,&t1,&t3);
+	  rtl_set_OF(&t1);
+	}
+
+	operand_write(id_dest,&t2);
+		print_asm_template2(ror);
+};
